@@ -1,18 +1,69 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      claps: 0,
+      currentSmiley: '-'
+    };
+  }
+
+  imperativeSetClaps(prevProps, prevState) {
+    const none = "😐",
+      medium = "😊",
+      high = "😄";
+
+    if (this.state.claps != prevState.claps) {
+      if (this.state.claps > 10) {
+        this.setState({ currentSmiley: high });
+      } else if (this.state.claps > 5) {
+        this.setState({ currentSmiley: medium });
+      } else {
+        this.setState({ currentSmiley: none });
+      }
+    }
+  }
+
+  functionalSetClaps(prevState) {
+    const clapStates = [
+      {minClap: 10, currentSmiley:"😄"},
+      {minClap: 5, currentSmiley:"😊"},
+      {minClap: 0, currentSmiley:"😐"},
+    ]
+      if (this.state.claps != prevState.claps) {
+        const match = clapStates.find( st => this.state.claps >= st.minClap)
+        
+        this.setState({currentSmiley: match.currentSmiley})
+      } 
+  }
+
+  // Functional setsmiley
+  componentDidUpdate(prevProps, prevState) {
+    this.functionalSetClaps(prevState)
+    // this.imperativeSetClaps(prevState)
+  }
+
+
+  clapClicked = () => {
+    this.setState(prevState => {
+      return {
+        claps: prevState.claps + 1
+      };
+    });
+  };
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        {this.state.currentSmiley}
+        <div className="ClapContainer">
+          Claps:
+          <div>{this.state.claps}</div>
+        </div>
+        <button onClick={this.clapClicked}>Clap!</button>
       </div>
     );
   }

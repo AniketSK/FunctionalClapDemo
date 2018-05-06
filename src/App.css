@@ -1,11 +1,10 @@
-.App {
+.App, button {
   text-align: center;
   font-size: 100px
 }
 
 .ClapContainer {
   flex:1;
-  flexDirection: 'column';
 }
 
 .App-logo {

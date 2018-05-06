@@ -16,14 +16,12 @@ class App extends Component {
       medium = "😊",
       high = "😄";
 
-    if (this.state.claps != prevState.claps) {
-      if (this.state.claps > 10) {
-        this.setState({ currentSmiley: high });
-      } else if (this.state.claps > 5) {
-        this.setState({ currentSmiley: medium });
-      } else {
-        this.setState({ currentSmiley: none });
-      }
+    if (this.state.claps > 10) {
+      this.setState({ currentSmiley: high });
+    } else if (this.state.claps > 5) {
+      this.setState({ currentSmiley: medium });
+    } else {
+      this.setState({ currentSmiley: none });
     }
   }
 
@@ -33,17 +31,17 @@ class App extends Component {
       {minClap: 5, currentSmiley:"😊"},
       {minClap: 0, currentSmiley:"😐"},
     ]
-      if (this.state.claps != prevState.claps) {
-        const match = clapStates.find( st => this.state.claps >= st.minClap)
-        
-        this.setState({currentSmiley: match.currentSmiley})
-      } 
+
+    const match = clapStates.find( st => this.state.claps >= st.minClap)  
+    this.setState({currentSmiley: match.currentSmiley})
   }
 
   // Functional setsmiley
   componentDidUpdate(prevProps, prevState) {
-    this.functionalSetClaps(prevState)
+    if (this.state.claps != prevState.claps) {
+      this.functionalSetClaps(prevState)
     // this.imperativeSetClaps(prevState)
+    }
   }
 
 
